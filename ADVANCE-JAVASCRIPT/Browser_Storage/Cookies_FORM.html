@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form id="myForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- <button type="submit" onclick="submitForm()" id="setcookies">setcookies</button> -->
+    <button type="submit" id="setcookies">setcookies</button>
+    <button type="button" id="getCookie">getCookie</button>
+  </form>
+</body>
+<script>
+
+  let form = document.getElementById('myForm');
+  let setcookies = document.getElementById('setcookies');
+
+  let getcookies = document.getElementById('getcookies');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    let user_name = document.getElementById('name').value;
+    let user_email = document.getElementById('email').value;
+
+    setcookievalue(user_name, user_email, 2)
+
+
+
+  });
+
+  function setcookievalue(user_name, user_email, minutes) {
+    let d = new Date();
+
+    console.log(d.getTime());
+
+    d.setTime(d.getTime() + minutes * 60 * 60 * 1000);
+
+    let expTime = d.toUTCString();
+
+
+    document.cookie = `name=${user_name}; expires=${expTime}`;
+    document.cookie = `email=${user_email}; expires=${expTime}`;
+    document.loaction.reload();
+    //to refresh the page we use document.loaction.reload() or window.reload()
+  }
+</script>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Ticket Booking </title>
+</head>
+
+<body>
+    <h1> Ticket Booking </h1>
+</body>
+<script>
+
+    // Define a Promise to simulate the ticket booking process.
+    const ticket = new Promise(
+        (resolve, reject) => {
+
+            // Set a timer to simulate the ticket booking process taking some time.
+            setTimeout(
+                () => {
+
+                    // Define a variable to indicate whether the boarding process was successful.
+                    let isBoarding = true;
+
+                    // Check if the boarding process was successful.
+                    if (isBoarding) {
+
+                        // Resolve the Promise and pass the successful message.
+                        resolve('Journey Successful');
+
+                    } else {
+
+                        // Reject the Promise and pass the error message.
+                        reject('Something is wrong..')
+
+                    }
+
+                }, 5000
+            )
+
+
+
+        }
+    );
+
+    // Define an async function to handle the ticket booking process.
+    async function book_ticket() {
+
+        try {
+
+            // Await the Promise to get the result of the ticket booking process.
+            let response = await ticket;
+
+            // Log the result of the ticket booking process to the console.
+            console.log(response);
+
+        } catch (e) {
+            // Log any errors that occurred during the ticket booking process to the console.
+            console.log(e);
+        }
+
+
+
+    }
+
+    // Call the async function to start the ticket booking process.
+    book_ticket();
+
+
+
+
+    //The commented-out code below demonstrates how to use Promises without async/await.
+    ticket.then(
+        (data) => {
+
+            console.log(data+"Using then catch");
+
+        }
+    ).catch(
+        (data) => {
+
+            console.log(data);
+
+        }
+    ).finally(
+        (data) => {
+
+            console.log("The Process is completed by then catch  ");
+
+        }
+    )
+
+</script>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+<body>
+    
+    <h1>Practising Promises</h1>
+    
+</body>
+<script>
+    // creating a promise 
+    
+    const promise = new Promise(callbackFunction);     
+    // here we are creating a promise and calling a callback function in the promise 
+    
+    function callbackFunction(resolve,reject){
+        
+        resolve();
+        reject();
+        
+        
+    } 
+    // here we are declaring the call back function and inside it we are calling reject and resolve functions 
+    // we will declare resolve and reject functions when we consume the promise by "then and catch" or "async await" 
+    
+    // we can also use an arrow function inside the promise       
+    
+    const promise1 = new Promise((resolve, reject) => {
+        
+        resolve();
+        reject();
+        // here no external declaring of function will be required
+        
+    })
+    
+    // making a promise inside a function
+    
+    function someFunction(){
+        
+        return new Promise((resolve, reject) => {
+            // here there is similar working of promise as above   
+        })
+        
+    }
+    
+    // consuming a promise 
+    
+    // then and catch methods 
+    
+    promise.then(                 
+
+                        //   if promise was inside a function then functionName.then will be used
+                        //   here it is variableName.then variable in which created promise is stored 
+    
+    // resolve function declared here
+    (someparameterthatcarriesdata)=>{
+        
+        // operation on someparameterthatcarriesdata
+        
+        
+    }
+    
+    )
+    .then(
+
+    // if the previous then returns another promise then we use this then to consume that
+    // this is called chain system of then
+    
+    
+    ).catch(
+     
+    // reject function
+    ()=>{
+
+    }
+
+    ).finally(
+
+    // at the end and its not dependant on anything nor its necessary to use 
+
+
+    )
+
+    // NOTE : then and catch are both methods
+
+    // ASYNC AWAIT 
+
+    async function someFunction(){
+        // here we have made another function and used the keyword ASYNC to make the function synchronus 
+        // here we use try and catch block
+        try{
+
+            let xyz = await promise 
+        //  the keyword await is used for making the engine wait until this piece of instruction is executed
+        // ot the function containing the promise can be called here
+
+        }
+    catch(e){
+
+        // if the promise gets rejected
+
+    }
+
+    someFunction(); 
+    // DO NOT FORGET TO CALL THE ASYNC FUNCTION
+
+
+    //  a promise has 3 states : "pending " "rejected" and " resolved" 
+    // pending state comes in asynchronus condition
+    
+
+
+        
+
+
+
+    }
+    
+    
+    
+</script>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Inner Text 1 </title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+        #main {
+            width: 800px;
+            height: auto;
+            padding: 10px;
+            border: 0.1px solid red;
+            margin: 50px auto;
+        }
+        .row1 {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            border: 0.1px solid black;
+        }
+        .box {
+            width: 200px;
+            height: 200px;
+            border: 0.1px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+        }
+        .row2 {
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            border: 0.1px solid blue;
+            display: flex;
+            margin-top: 10px;
+            justify-content: space-around;
+        }
+        button {
+            font-size: 30px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div class="row1">
+            <div class="box"> 1 </div>
+            <div class="box" id="b2"> 2 </div>
+            <div class="box"> 3 </div>
+        </div>
+        <div class="row2">
+            <button> 1 </button>
+            <button> 2 </button>
+            <button> 3 </button>
+        </div>
+    </div>
+</body>
+<script>
+
+    var boxes = document.getElementsByClassName('box');
+
+    var box2 = boxes[1];
+
+    // console.log(box2);
+
+    // Get TEXT
+    var x = box2.innerText;
+
+    // console.log(x);
+
+    //Remove
+
+    box2.innerText = 'Gaurav';
+
+    var y = box2.innerText;
+
+    console.log(y);
+
+
+
+
+    // var box2 = document.getElementById('b2');
+
+    // console.log(box2);
+   
+</script>
+</html>

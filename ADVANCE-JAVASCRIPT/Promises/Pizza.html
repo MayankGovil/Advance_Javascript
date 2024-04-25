@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Pizza </title>
+</head>
+<body>
+    <h1> Pizza </h1>
+</body>
+<script>
+
+    let x,y,z;
+
+    function getIngredients() {
+
+        return new Promise(
+            (resolve,reject) => {
+
+                setTimeout(
+                    () => {
+
+                        x = 'Cheese and flour is ready to use...';
+                        resolve(x);
+
+                        // reject('Bad Cheese...')
+
+                    },5000
+                )
+
+                
+
+            }
+        )
+
+    }
+
+    function makeDough() {
+
+        return new Promise(
+            (resolve,reject) => {
+
+                setTimeout(
+                    () => {
+
+                        y = 'Dough is ready to use...';
+
+                        resolve(y); 
+
+                        // reject('Dough is not properly ready...')
+
+                    },7000
+                )
+
+               
+                
+            }
+        )
+
+    };
+
+    function bakePizza() {
+        return new Promise(
+            (resolve,reject) => {
+                setTimeout(
+                    () => {
+
+                        z = 'Pizza is ready to eat...';
+
+                        resolve(z);
+
+                    },10000
+                );
+
+                
+            }
+        )
+    }
+
+
+    // const pizza = async () => {
+
+    // }
+
+
+    async function pizza() {
+
+        try {
+
+            let data1 = await getIngredients();
+
+            console.log(data1);
+
+            let data2 = await makeDough();
+
+            console.log(data2);
+
+            let data3 = await bakePizza();
+
+            console.log(data3);
+
+            console.log('Process Ended...');
+
+        } catch(e) {
+
+            console.log(e);
+            console.log('Process Ended...');
+
+        }
+
+    }
+
+    pizza();
+
+
+    // getIngredients()
+    // .then(
+    //     (data1) => {
+
+    //         console.log(data1);
+
+    //         return makeDough();
+
+    //     }
+    // )
+    // .then(
+    //     (data2) => {
+    //         console.log(data2);
+    //         return bakePizza();
+    //     }
+    // )
+    // .then(
+    //     (data3) => {
+    //         console.log(data3);
+    //     }
+    // )
+    // .catch(
+    //     (e) => {
+    //         console.log(e);
+    //     }
+    // )
+    // .finally(
+    //     () => {
+    //         console.log('Process End...')
+    //     }
+    // )
+    
+
+</script>
+</html>

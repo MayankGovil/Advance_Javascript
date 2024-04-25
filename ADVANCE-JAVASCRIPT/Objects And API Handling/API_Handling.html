@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> API Handling </title>
+</head>
+<body>
+    <h1> API Handling </h1>
+</body>
+<script>
+
+    let BaseUrl = 'https://jsonplaceholder.typicode.com/todos';
+
+    fetch(BaseUrl)
+    .then(
+        (response) => {
+            return response.json();
+        }
+        )
+    .then(
+        (finalData) => {
+
+            finalData.forEach(
+
+                (value) => {
+
+                    const {id : u_id, title : Heading} = value;
+
+                    document.write(`${u_id} ; ${Heading} <br/>`);
+
+                }
+        )
+
+        }
+        )
+    .catch (
+        (e) => {
+            console.log(e);
+        }
+        
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // async function getData() {
+
+    //     try {
+
+    //         let response = await fetch(BaseUrl);
+
+    //         let finaData = await response.json();
+
+    //         console.log(finaData);
+
+    //     } catch(e) {
+    //         console.log(e)
+    //     }
+
+    // }
+
+    // getData();
+
+    </script>
+    </html>

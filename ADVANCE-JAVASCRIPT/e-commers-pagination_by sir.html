@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        .product {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 250px;
+
+        }
+
+        .box img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .number {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid ">
+        <div class="container">
+            <div class="row py-5">
+
+                <div class="col-lg-3 ">
+                    <h3>category</h3>
+                    <ul class="product  p-2" id="categoryList">
+
+                    </ul>
+
+                    <div class="py-3 priceList ">
+                        <h3>Price</h3>
+                        <div class="row">
+                            <span class="col-6"></span> <span class="col-6"></span>
+                        </div>
+
+                        <div><input type="range" style="width: 100%;"></div>
+                        <div class="text-center border"> <span></span> </div>
+                    </div>
+
+                    <div class="py-3  ">
+                        <h3>Rating</h3>
+                        <select class="w-100 text-center form-select">
+                            <option>Select Rating</option>
+                            <option>5</option>
+                            <option>4</option>
+                            <option>3</option>
+                            <option>2</option>
+                            <option>1</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-9">
+                    <div class="row gy-5" id="fainal">
+
+                    </div>
+                </div>
+
+
+                <div class="row py-3 border-1" id="pagination">
+                    <div class="col-lg-12 text-center ">
+                        <nav aria-label="...">
+                            <ul class="pagination pagination-sm">
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    //  allCheckBoxChecked=[]   //  ye blank-arry me click kiye ve sare checkbox ko store kr rha h (checkbox+Range+Rating)
+    let select = document.querySelector("select ");
+    let categoryList = document.querySelector("#categoryList");
+    let paginationDiv = document.querySelector("#pagination");
+    let fainalDiv = document.querySelector("#fainal");
+    let rangeInput = document.querySelector("input[type='range']");
+    let priceList = document.querySelectorAll(".priceList span");
+    let allCat = [];  // ye blank-arry me total(20) category ko store kr rha h
+    let maxValue;
+    let minValue;
+
+
+    let displayProduct = async (allCheckBoxChecked = [], price = '', rating = '') => {
+        try {
+            fainalDiv.innerHTML = ''
+            //  paginationDiv.innerHTML=''
+            let apiUrl = `https://dummyjson.com/products?limit=100`;
+            let fetchData = await fetch(apiUrl);
+            let fainalData = await fetchData.json();
+            let allProduct = await fainalData.products;
+            let allItem = await fainalData.total;// total product ki quantity
+
+
+            maxValue = allProduct[0].price;
+            minValue = allProduct[0].price;
+
+            allProduct.forEach(element => {
+
+                if (maxValue < element.price) {
+                    maxValue = element.price
+                }
+                if (minValue > element.price) {
+                    minValue = element.price
+                }
+
+                if (!allCat.includes(element.category)) { // yha category ka data store h
+                    allCat.push(element.category);
+                    categoryList.innerHTML += `
+            <li><label><input type="checkbox" value="${element.category}"  onclick='filterData()'> ${element.category} </label> </li>
+            `
+                }
+
+                // if(allCheckBoxChecked.length==0){
+                //     allCheckBoxChecked=allCat;
+                // isse nichee ese bhi likh skte h}
+
+                if ((allCheckBoxChecked.includes(element.category) || allCheckBoxChecked.length == 0) && (element.price <= Number(price) || price == '') && (Math.ceil(element.rating) == Number(rating) || rating == '')) {             //all... me 20 total category h to pura data show hoga
+                    fainalDiv.innerHTML += `
+                            <div class="col-lg-4 ">
+                                <div class="card box" >
+                                    <img src="${element.thumbnail}" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                    <h5>Rs.${element.price}  |  Rating-${element.rating}</h5>
+                                    <a href="#" class="btn btn-primary">Rating-${element.title}</a>
+                                    </div>
+                                </div>
+                            </div> `
+                }
+
+            });
+
+            rangeInput.min = minValue;
+            rangeInput.max = maxValue;
+
+            if (price == '') {
+                rangeInput.value = maxValue;
+                priceList[2].innerHTML = "Rs." + maxValue;
+            }
+
+            priceList[0].innerHTML = "Rs." + minValue;
+            priceList[1].innerHTML = "Rs." + maxValue;
+        }
+        catch (error) {
+            alert('something went wrong', error)
+        }
+
+    }
+
+    displayProduct();
+
+    function filterData() {    //yha click  ka data store h (checkdata ka)
+        let checkData = []; // cheakbox checked  krne k bad isme store ho rha h data
+        let allCheckbox = document.querySelectorAll("#categoryList li label input[type='checkbox']")
+        allCheckbox.forEach((v) => {
+            if (v.checked) {
+                checkData.push(v.value)
+            }
+        });
+
+        if (checkData.length == 0) {
+            checkData = []
+        }
+        displayProduct(checkData);
+
+    }
+
+    rangeInput.addEventListener('change', () => {
+        let checkData = []
+        let allCheckbox = document.querySelectorAll("#categoryList li label input[type='checkbox']");
+        allCheckbox.forEach((v) => {
+            if (v.checked) {
+                checkData.push(v.value)
+            };
+        });
+
+
+        priceList[2].innerHTML = "Rs." + (rangeInput.value);
+
+        displayProduct(checkData, rangeInput.value);
+    });
+
+
+
+    select.addEventListener("change", () => {
+        let checkData = []
+        let allCheckbox = document.querySelectorAll("#categoryList li label input[type='checkbox']");
+        allCheckbox.forEach((v) => {
+            if (v.checked) {
+                checkData.push(v.value)
+            };
+        });
+
+
+        displayProduct(checkData, rangeInput.value, select.value);
+
+
+    })
+
+
+
+
+</script>
+

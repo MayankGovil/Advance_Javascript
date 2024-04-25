@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+</head>
+<body class="bg-body-secondary">
+    <div class="container-fluid text-center py-4">
+        <h1>weather App</h1> 
+    </div>
+    <div class="container">
+        <div class="text-danger" id="error"></div>
+        <form class="row " id="cityForm">
+            <div class="col-lg-4 p-0">
+                <input type="text" name="cityname" class="form-control" placeholder="cityName"/>
+            </div>
+            <div class="col-lg-4 p-0">
+                <button type="button" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        <div class="row py-4" id="res">
+           
+        </div>
+    </div>
+
+
+</body>
+<script>
+    
+
+    
+    let form=document.querySelector("#cityForm");
+    let res=document.querySelector("#res");
+    form.addEventListener("submit", async (e)=>{ //Submit.form.inputName.value
+        res.innerHTML="";
+        e.preventDefault();
+
+        let cityName=e.target.cityname.value.toLowerCase();
+                    //Empty
+        let oldData=JSON.parse(localStorage.getItem("city")) ?? [];
+
+        if(!oldData.includes(cityName)) {
+            oldData.push(cityName)
+            localStorage.setItem("city",JSON.stringify(oldData))
+            displayAllData();
+        }
+        else{
+                alert("City Name Already Exists")
+        }
+    })
+
+
+
+    let displayAllData= async ()=>{
+        let oldData= JSON.parse(localStorage.getItem("city")) ?? [];
+        let i=0;
+        for(let cityName of oldData) {
+            let apiURl=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=4d8fb5b93d4af21d66a2948710284366&units=metric`
+            let fehchData=await fetch(apiURl);
+            let fData=await fehchData.json();
+        
+            if(fData.cod=="404"){
+                error.innerHTML=fData.message;
+                setTimeout(()=>{
+                    error.innerHTML='';
+                },2000)
+            
+            }
+            else{
+                let {main,name,sys,weather}=await fData;
+                
+                res.innerHTML+=`
+                <div class="col-lg-3">
+                        <div class="card" >
+                          
+                            <div class="card-body text-center">
+                            <h5 class="card-title"> ${i} ${sys.country}</h5>
+                            <img src="https://openweathermap.org/img/w/${weather[0].icon}.png"  >
+                            <h3>${name}</h3>
+                            <p class="card-text">${main.temp}</p>
+                            <h3>${weather[0].description}
+
+                            </h3>
+                            <button onclick='removeRow(${i})'>&times;</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                `;
+            }
+
+            i++;
+        }
+       
+    }
+
+//     let l=[10,20,30,40,50];
+//    l.splice(2,1)
+//    console.log(l)
+
+    function removeRow(index){
+        res.innerHTML="";
+        let n= JSON.parse(localStorage.getItem("city")) ?? [];
+        n.splice(index,1);
+        localStorage.setItem("city",JSON.stringify(n))
+        displayAllData();
+        
+    }
+    displayAllData();
+</script>
+</html>

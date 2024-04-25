@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-commerce Pagination and Add to Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .popUp {
+            top: -50%;
+            left: -50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid purple;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <nav class="navbar  bg-info bg-gradient">
+                <div class="container-fluid">
+                    <a class="navbar-brand">SHOPPER'S STOP</a>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            id="searchInput" oninput="searchtitle()">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+            <div class="row">
+                <div class="col-2 bg-black text-info">
+                    <h4>categories</h4>
+                    <div id="category">
+
+                    </div>
+                    <div>
+                        <h4>Select a Price Range </h4>
+                        <div class="spans d-flex justify-content-between">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div><input class="w-100" type="range" name="" min="" max="" value="" id="rangeInput"
+                                oninput="changeValue();" onchange="range()"></div>
+                    </div>
+                </div>
+                <div class="col-10  ">
+                    <!-- <div class="overlay position-fixed z-2 w-100  bg-light bg-opacity-25">
+                        <div class="popUp bg-light">
+                            <div class="card" style="width: 18rem;">
+                                <img src="..." class="card-img-top" alt="...">
+                                <div class="card-body">
+                                  <h5 class="card-title">Card title</h5>
+                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                              </div>
+                        </div>
+                    </div> -->
+                    <div id="product" class="row px-5">
+
+                    </div>
+
+                    <div id="pagination" class="text-center">
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script>
+        // Define global variables
+        let product = document.getElementById('product');
+        let category = document.getElementById('category');
+        let paginationDiv = document.getElementById('pagination');
+        let rangeInput = document.getElementById('rangeInput');
+        let searchInput = document.getElementById('searchInput');
+        let spans = document.querySelectorAll('.spans span');
+        let api = 'https://dummyjson.com/products?limit=100';
+        let allCat = [];
+        let dataToShow = 12;
+        let start = 0;
+        let limit = dataToShow;
+        let allPrices = [];
+        let allTitle = [];
+        let price;
+        let selectedCheckbox = [];
+        let searchedTitle = [];
+        let rangePrices = [];
+
+        // Function to change the range value
+        function changeValue() {
+            spans[1].innerHTML = rangeInput.value;
+        }
+
+        // Function to show products based on selected filters
+        async function showData(categoryArray = [], rangeArray = [], titleArray = []) {
+            product.innerHTML = '';
+            let apiData = await fetch(api);
+            let finalData = await apiData.json();
+            let { products } = finalData;
+            let separateCategory = [];
+            products.forEach(element => {
+                if (!allCat.includes(element.category)) {
+                    allCat.push(element.category);
+                    category.innerHTML += `<label for="" class="d-block">
+                        <input type="checkbox" name="" onclick="choseCategory();" class="checkBox" value="${element.category}">
+                        ${element.category}
+                    </label>`;
+                }
+                if ((categoryArray.includes(element.category) || categoryArray.length == 0) &&
+                    (rangeArray.includes(element.price) || rangeArray.length == 0) &&
+                    (titleArray.includes(element.title) || titleArray.length == 0)) {
+                    x = element;
+                    separateCategory.push(x);
+                }
+                allPrices.push(element.price);
+                allTitle.push(element.title);
+            });
+            let minValue = Math.min(...allPrices);
+            let maxValue = Math.max(...allPrices);
+            rangeInput.min = minValue;
+            rangeInput.max = maxValue;
+            spans[0].innerHTML = minValue;
+            spans[2].innerHTML = maxValue;
+            let slicedArray = separateCategory.slice(start, limit);
+            slicedArray.forEach((element) => {
+                let stockStatus = element.status === 0 ? 'Out Of Stock' : 'In Stock';
+                product.innerHTML += `<div class="card col-2 m-2" style="width: 270px;">
+                    <img src="${element.thumbnail}" class="card-img-top" alt="..." style="height: 200px">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">${element.title}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>${element.price} <span>(${element.discountPercentage})</span></span>
+                            <span>${element.rating}</span>
+                        </li>
+                        <li class="list-group-item">${stockStatus}</li>
+                    </ul>
+                    <div class="card-body text-center">
+                        <button class="button" value="${JSON.stringify(element)}" onclick="cart();">
+                            <a href="#">Add to cart</a>
+                        </button>
+                    </div>
+                </div>`;
+            });
+            paginationDiv.innerHTML = '';
+            if (separateCategory.length > dataToShow) {
+                let pageCount = Math.ceil(separateCategory.length / dataToShow);
+                let btns = '';
+                for (let i = 1; i <= pageCount; i++) {
+                    btns += `<button class="btn btn-outline-info text-info bg-black btn-sm rounded-circle"
+                        onclick="changePage(${i})">${i}</button>`;
+                }
+                paginationDiv.innerHTML = btns;
+            }
+        }
+
+        // Function to handle category selection
+        function choseCategory() {
+            let allCheckbox = document.querySelectorAll('.checkBox');
+            selectedCheckbox = [];
+            allCheckbox.forEach((element) => {
+                if (element.checked && !selectedCheckbox.includes(element.value)) {
+                    selectedCheckbox.push(element.value);
+                }
+            });
+            showData(selectedCheckbox, rangePrices, searchedTitle);
+        }
+
+        // Function to handle pagination
+        function changePage(pageNo) {
+            start = (pageNo - 1) * dataToShow;
+            limit = start + dataToShow;
+            showData(selectedCheckbox, rangePrices, searchedTitle);
+        }
+
+        // Function to handle range changes
+        function range() {
+            let sortedPrices = allPrices.sort();
+            price = rangeInput.value;
+            rangePrices = [];
+            sortedPrices.forEach((element) => {
+                if (element <= price) {
+                    rangePrices.push(element);
+                }
+            });
+            showData(selectedCheckbox, rangePrices, searchedTitle);
+        }
+
+        // Function to handle title search
+        function searchTitle() {
+            let title = searchInput.value;
+            searchedTitle = [];
+            allTitle.forEach((element) => {
+                let y = element;
+                if (y.indexOf(title) == 0) {
+                    searchedTitle.push(y);
+                }
+            });
+            showData(selectedCheckbox, rangePrices, searchedTitle);
+        }
+
+        // Function to add item to cart
+        function cart() {
+            let buttons = document.querySelector('.button');
+            let x = buttons.value;
+            localStorage.setItem("product", x);
+        }
+
+        // Initial call to showData without filters
+        showData();
+    </script>
+
+
+</html>

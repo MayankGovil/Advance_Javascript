@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>making Div using Promise </title>
+  <style type="text/css">
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 12px solid red;
+
+      height: 100vh;
+      margin: 10px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+      margin: 10px;
+      display: none;
+      border: 2px solid black;
+      text-align: center;
+    }
+
+    .box p {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="box" id="box1">
+    <p>1</p>
+  </div>
+  <div class="box" id="box2">
+    <p>2</p>
+  </div>
+  <div class="box" id="box3">
+    <p>3</p>
+  </div>
+  <div class="box" id="box4">
+    <p>4</p>
+  </div>
+</body>
+
+<script>
+  function animateBox(boxId, delay) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const box = document.getElementById(boxId);
+
+        
+        if (box) {
+          box.style.display = 'block';
+          console.log(`${boxId} has been displayed by using set time out and promise `);
+          resolve();
+          //resolve(` ${boxId} is displayed `);
+        }
+        else {
+          reject();
+        }
+      }, delay);
+    });
+
+  }
+
+  async function animateAllBoxes() {
+
+    try {
+      await animateBox('box1', 5000);
+      await animateBox('box2', 5000);
+      await animateBox('box3', 5000);
+      await animateBox('box4', 5000);
+      console.log("all boxes are displayed");
+    } catch (e) {
+      console.log(e);
+      console.log("Process end due to problem");
+    }
+
+  }
+
+  animateAllBoxes();
+
+</script>
+</html>

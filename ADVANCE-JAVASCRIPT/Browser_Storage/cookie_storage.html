@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookies Storage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="signupForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required/>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required/>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required/>
+
+    <button type="submit" id="" onclick="submitForm()">Set Cookies</button>
+    <button type="button" onclick="getCookie()">Get Cookies</button>
+  </form>
+
+ 
+
+  <script>
+    function submitForm() {
+      const form = document.getElementById('signupForm');
+      const formData = new FormData(form);
+
+      // Get form data and convert it to an object
+      const userData = {};
+      formData.forEach((value, key) => {
+        userData[key] = value;
+      });
+
+      console.log(userData);
+
+      // Set dynamic expiration time (1 day from now)
+      const expirationDate = new Date();
+      expirationDate.setDate(expirationDate.getDate() + 1);
+
+      // Convert user data to JSON and store in a cookie
+      document.cookie = `userData=${JSON.stringify(userData)}; expires=${expirationDate.toUTCString()}`;
+
+      alert('User signed up successfully!');
+      document.loaction.reload();
+    }
+
+    function getCookie() {
+      const cookieData = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('userData='));
+
+      if (cookieData) {
+        const userDataString = cookieData.split('=')[1];
+        const userData = JSON.parse(userDataString);
+        alert(`User Details:\nUsername: ${userData.username}\nEmail: ${userData.email}`);
+      } else {
+        alert('User details not found in cookies.');
+      }
+    }
+  </script>
+</body>
+</html>

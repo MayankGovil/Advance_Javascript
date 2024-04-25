@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API handling with promises</title>
+</head>
+<body>
+
+    <h1>API handling with promises</h1>
+
+    data is stored in the form of JSON. JSON is a string based datatype which is commonly used format in transfer odnary data from one server to another.
+    To be able to use data in JS we convert Json into object and this loads of data and its conversion takes time hence use of promises is required to 
+    wait until the data is fetched and converted into one form to another 
+
+    
+</body>
+<script>
+    let abc = 'https://jsonplaceholder.typicode.com/albums'
+    // this is an API ("APPLICATION PROGRAMING INTERFACE ")
+    // storing this into a variable
+
+    // or we can directly use 
+
+   
+
+    async function someFunction(){
+
+        // DO NOT FORGET TO CALL THE FUNCTION AFTERWORDS or in last to run the all the operation on API call the function
+
+        let xyz = await fetch(abc);
+        // fetching api takes time hence used async await ans storing in into variable xyz 
+
+        // or we can directly use 
+        let efg = await fetch('https://jsonplaceholder.typicode.com/albums');
+
+        console.log(typeof(xyz));
+        // output is object(json)
+        
+        console.log(typeof(efg));
+        // the data fetched is not understandable by us so we convert it into js object
+
+        let new_xyz = await xyz.json();
+        // data is converted into js object by variablename.json() method 
+        // this returns a promise 
+        console.log(new_xyz);
+        console.log(typeof(new_xyz));
+        // output is an object
+
+        // another way is json.parse(variablename)
+        // const new_efg = JSON.parse(efg);
+        // console.log(new_efg);
+
+        // to convert js object back to json we use json.stringify();
+        let another_xyz = JSON.stringify(new_xyz);
+        console.log(another_xyz);
+        // gives data in string
+        console.log(typeof(another_xyz));
+        // output of this is string
+
+       
+
+       
+
+    
+
+    }
+
+    someFunction(); 
+    
+</script>
+</html>

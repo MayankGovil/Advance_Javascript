@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Css Property </title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing:  border-box;
+        }
+        main {
+            width: 300px;
+            height: 200px;
+            background-color: yellow;
+            margin: 50px auto;
+            
+        }
+    </style>
+</head>
+<body>
+    <main id="main">
+        Welcome to WsCubeTech
+    </main>
+</body>
+<script>
+    
+    var main = document.getElementById('main');
+
+    main.addEventListener('mouseenter', change_css);
+
+    // main.addEventListener('mouseleave', change_css2);
+
+    function change_css() {
+
+        main.style.width = '600px';
+        main.style.height = '300px';
+        main.style.backgroundColor = 'cyan';
+        main.style.borderRadius = '20px'
+        main.style.display = 'flex';
+        main.style.justifyContent = 'center';
+        main.style.alignItems = 'center';
+        main.style.fontSize = "30px";
+    }
+
+    // function change_css2() {
+    //     main.style.width = '300px';
+    //     main.style.height = '200px';
+    //     main.style.backgroundColor = 'yellow';
+    //     main.style.borderRadius = '0px'
+    //     main.style.display = 'block';
+    //     main.style.fontSize = "16px";
+    // }
+
+    
+</script>
+</html>

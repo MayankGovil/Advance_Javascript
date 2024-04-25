@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Objects</title>
+</head>
+<body>
+    <h1>Introduction to Objects</h1>
+</body>
+<script>
+    const student = {
+        "first_Name":"Mayank",//keys:value
+        "last_Name":"Govil",//keys:value
+        "Age":22,//keys:value
+        "course":"Mern",//keys:value
+        "D.O.B":"24/11/2001",
+        "fullName":function(){
+            console.log("Student Detail");
+        }
+    }
+
+    console.log(student.Age);//Output= 22
+    console.log(student.first_Name);//Output = Mayank
+    //console.log(student.fullName);//output = it print the function defination
+    // ƒ (){
+    //         console.log("Student Detail");
+    //     }
+    //to print the function not its defination 
+    student.fullName(); //Output : Student Detail
+
+
+
+    let x = student.first_Name;
+    let y = student.course;
+    console.log(y);
+    console.log(x);
+    
+     
+
+
+    //OBJECT DESturing of object 
+    //we use Desturing beacuse to acces object key value easliy and without decalre other variable like above
+
+    //syntax const {object key1 , object key2,  ...}= object Name
+    //we can redeclare the object key name like below with an example 
+        const{first_Name , last_Name, course : Batch, fullName:Details}=student
+        console.log(first_Name);
+        console.log(last_Name);
+
+        console.log(Batch);
+        console.log(Details);
+
+
+
+    //object can not print by using document.write();
+    // only for in loops when want to access object 
+
+</script>
+</html>

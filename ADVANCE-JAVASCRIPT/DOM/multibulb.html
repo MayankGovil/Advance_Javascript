@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>multibulb</title>
+    <style>
+        *{
+            padding: 0px ;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+        main{
+            width: 800px;
+            height: auto;
+            padding: 10px 15px;
+            border: 0.1px solid red;
+            margin: 50px auto;
+        }
+        button{
+            padding: 15px 20px ;
+            border: 0.1px solid saddlebrown;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <button onclick="test()" id="btn">On</button>
+        <img onmouseover="change(this)" src="images/multi_bulb_off.jpg" alt="" class="img">
+        <img onmouseover="change(this)" src="images/multi_bulb_on.jpg" alt="" class="img">
+        <img onmouseover="change(this)" src="images/multi_bulb_off.jpg" alt="" class="img">
+        <img onmouseover="change(this)" src="images/multi_bulb_on.jpg" alt="" class="img">
+        <img onmouseover="change(this)" src="images/multi_bulb_off.jpg" alt="" class="img">
+    </main>
+    
+</body>
+<script>
+
+    // var img = document.getElementsByClassName('img');
+    var btn = document.getElementById('btn');
+    var count = 1;
+    // console.log(img);
+
+    function change(image) {
+
+        console.log(image.src);
+
+        if(image.src == "http://127.0.0.1:5500/images/multi_bulb_off.jpg") {
+            // alert('hello');
+            image.src = 'images/multi_bulb_on.jpg'
+        } else {
+            // alert('h');
+            image.src = 'images/multi_bulb_off.jpg';
+        }
+
+    }
+
+        // function test(){
+        //     var p = btn.innerText;
+        //     console.log(p);
+
+        //     if (p =='On'){
+
+        //         switch(count) {
+        //             case 1: {
+        //                 img[0].src = "images/multi_bulb_on.jpg";
+        //                 count++;
+        //                 break;
+        //             }
+        //             case 2: {
+        //                 img[1].src = "images/multi_bulb_on.jpg";
+        //                 count++;
+        //                 break;
+        //             }
+        //             case 3: {
+        //                 img[2].src = "images/multi_bulb_on.jpg";
+        //                 count++;
+        //                 break;
+        //             }
+        //             case 4: {
+        //                 img[3].src = "images/multi_bulb_on.jpg";
+        //                 count++;
+        //                 break;
+        //             }
+        //             case 5: {
+        //                 img[4].src = "images/multi_bulb_on.jpg";
+        //                 count++;
+        //                 break;
+        //             }
+        //             default: {
+        //                 for(var i = 0 ; i <= 4 ; i++) {
+        //                     img[i].src =  "images/multi_bulb_off.jpg";
+        //                 }
+        //                 count = 1;
+        //             }
+
+        //         }
+                
+        //         // img.src = "images/bulb_on.jpg";
+                
+        //         // btn.innerText = 'off';
+        //     }
+        // }
+
+
+
+
+</script>
+</html>
